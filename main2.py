@@ -14,12 +14,12 @@ def handle_start(message):
 
 @bot.message_handler(commands=['time_left'])
 def handle_time_left(message):
-    # O'zbekiston vaqti (Qarshi)
-    qarshi_tz = timezone('Asia/Qarshi')
-    current_time = datetime.now(qarshi_tz)
+    # O'zbekiston vaqti (Karshi)
+    karshi_tz = timezone('Asia/Karshi')
+    current_time = datetime.now(karshi_tz)
     
     # Yangi yil vaqti
-    new_year = datetime(current_time.year + 1, 1, 1, 0, 0, 0, tzinfo=qarshi_tz)
+    new_year = datetime(current_time.year + 1, 1, 1, 0, 0, 0, tzinfo=karshi_tz)
     
     # Vaqt farqi
     time_left = new_year - current_time

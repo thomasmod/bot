@@ -17,10 +17,10 @@ def handle_time_left(message):
     # O'zbekiston vaqti (Toshkent)
     uz_tz = timezone('Asia/Tashkent')
     current_time = datetime.now(uz_tz)
-    
+
     # Yangi yil vaqti
     new_year = datetime(current_time.year + 1, 1, 1, 0, 0, 0, tzinfo=uz_tz)
-    
+
     # Vaqt farqi
     time_left = new_year - current_time
 

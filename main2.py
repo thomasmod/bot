@@ -1,8 +1,8 @@
 import telebot
-from datetime import datetime
-from pytz import timezone
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
+from pytz import timezone
 
 # Botni tokenini quyidagi o'rniga joylashtiring
 TOKEN = "6751568339:AAFBsO1Jex2szUO7uQ9eGRaagj7y0r5KZT8"
@@ -40,22 +40,22 @@ def ping(message):
     ping_time = end_time - start_time
     bot.send_message(message.chat.id, f"Ping time: {ping_time} seconds")
 
-@bot.message_handler(commands=['get_tashkent_time'])
-def get_tashkent_time(message):
-    # Toshkent vaqti uchun saytga so'rov jo'natish
-    response = requests.get("https://allcalc.ru/node/1868")
+@bot.message_handler(commands=['get_kazakhstan_time'])
+def get_kazakhstan_time(message):
+    # Kazakhstan vaqti uchun saytga so'rov jo'natish
+    response = requests.get("https://happynewyear.kz/")
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Elementni qidirish
-    date_time_element = soup.find("span", {"class": "date-time"})
-    
+    date_time_element = soup.find("div", {"id": "now"})
+
     if date_time_element:
-        tashkent_time_str = date_time_element.text.strip()
-        tashkent_time = datetime.strptime(tashkent_time_str, "%d.%m.%Y %H:%M:%S")
-        tashkent_time = tashkent_time.replace(tzinfo=uz_tz)
-        bot.send_message(message.chat.id, f"Joriy Toshkent vaqti: {tashkent_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        kazakhstan_time_str = date_time_element.text.strip()
+        # Convert string to datetime object
+        kazakhstan_time = datetime.strptime(kazakhstan_time_str, "%H:%M:%S")
+        bot.send_message(message.chat.id, f"Joriy Kazakhstan vaqti: {kazakhstan_time.strftime('%H:%M:%S')}")
     else:
-        bot.send_message(message.chat.id, "Uzr, Toshkent vaqti olinmadi.")
+        bot.send_message(message.chat.id, "Uzr, Kazakhstan vaqti olinmadi.")
 
 if __name__ == "__main__":
     bot.polling(none_stop=True)

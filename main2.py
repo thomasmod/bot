@@ -1,44 +1,32 @@
-import telebot
-from datetime import datetime, timedelta
-from pytz import timezone  # pytz kutubxonasini qo'shing
-import time
+import datetime
+from pytz import timezone
+from telegram.ext import Updater, CommandHandler
 
-# Botni tokenini quyidagi o'rniga joylashtiring
+# Токен вашего бота
 TOKEN = "6751568339:AAFBsO1Jex2szUO7uQ9eGRaagj7y0r5KZT8"
 
-bot = telebot.TeleBot(TOKEN)
+# Временная зона Ташкента
+tz_tashkent = timezone('Asia/Tashkent')
 
-@bot.message_handler(commands=['start'])
-def handle_start(message):
-    bot.send_message(message.chat.id, 'Assalomu alaykum! Yangi yilga qolgan vaqt hisoblovchi botga xush kelibsiz!')
+def time_until_new_year(update, context):
+    now = datetime.datetime.now(tz_tashkent)
+    new_year = datetime.datetime(now.year + 1, 1, 1, 0, 0, 0, 0, tz_tashkent)
+    time_left = new_year - now
 
-@bot.message_handler(commands=['time_left'])
-def handle_time_left(message):
-    # O'zbekiston vaqti (Samarkand)
-    samarkand_tz = timezone('Asia/Samarkand')
-    current_time = datetime.now(samarkand_tz)
-    
-    # Yangi yil vaqti
-    new_year = datetime(current_time.year + 1, 1, 1, 0, 0, 0, tzinfo=samarkand_tz)
-    
-    # Vaqt farqi
-    time_left = new_year - current_time
+    days, seconds = time_left.days, time_left.seconds
+    hours = seconds // 3600
 
-    days_left = time_left.days
-    hours_left, remainder = divmod(time_left.seconds, 3600)
-    minutes_left, seconds_left = divmod(remainder, 60)
+    update.message.reply_text(f"До Нового года в Ташкенте осталось {days} дней и {hours} часов.")
 
-    time_left_str = f"Yangi yilga {days_left} kun, {hours_left} soat, {minutes_left} daqiqa va {seconds_left} soniya qoldi!"
-    bot.send_message(message.chat.id, time_left_str)
+def main():
+    updater = Updater(TOKEN, use_context=True)
+    dp = updater.dispatcher
 
-# Обработчик команды /ping
-@bot.message_handler(commands=['ping'])
-def ping(message):
-    start_time = time.time()
-    bot.send_message(message.chat.id, "Pong!")
-    end_time = time.time()
-    ping_time = end_time - start_time
-    bot.send_message(message.chat.id, f"Ping time: {ping_time} seconds")
+    # Обработчик команды /timeleft
+    dp.add_handler(CommandHandler("timeleft", time_until_new_year))
 
-if __name__ == "__main__":
-    bot.polling(none_stop=True)
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()

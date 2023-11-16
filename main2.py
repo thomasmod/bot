@@ -1,6 +1,6 @@
 import datetime
 from pytz import timezone
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, CallbackContext
 
 # Токен вашего бота
 TOKEN = "6751568339:AAFBsO1Jex2szUO7uQ9eGRaagj7y0r5KZT8"
@@ -19,7 +19,7 @@ def time_until_new_year(update, context):
     update.message.reply_text(f"До Нового года в Ташкенте осталось {days} дней и {hours} часов.")
 
 def main():
-    updater = Updater(TOKEN, use_context=True)
+    updater = Updater(TOKEN)
     dp = updater.dispatcher
 
     # Обработчик команды /timeleft

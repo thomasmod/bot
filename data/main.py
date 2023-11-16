@@ -30,5 +30,14 @@ def handle_time_left(message):
     time_left_str = f"Yangi yilga {days_left} kun, {hours_left} soat, {minutes_left} daqiqa va {seconds_left} soniya qoldi!"
     bot.send_message(message.chat.id, time_left_str)
 
+# Обработчик команды /ping
+@bot.message_handler(commands=['ping'])
+def ping(message):
+    start_time = time.time()
+    bot.send_message(message.chat.id, "Pong!")
+    end_time = time.time()
+    ping_time = end_time - start_time
+    bot.send_message(message.chat.id, f"Ping time: {ping_time} seconds")
+
 if __name__ == "__main__":
     bot.polling(none_stop=True)

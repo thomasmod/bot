@@ -19,7 +19,7 @@ def time_until_new_year(update, context):
     update.message.reply_text(f"До Нового года в Ташкенте осталось {days} дней и {hours} часов.")
 
 def main():
-    updater = Updater(TOKEN)
+    updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
 
     # Обработчик команды /timeleft

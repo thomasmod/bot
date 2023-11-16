@@ -45,14 +45,17 @@ def get_tashkent_time(message):
     # Toshkent vaqti uchun saytga so'rov jo'natish
     response = requests.get("https://allcalc.ru/node/1868")
     soup = BeautifulSoup(response.text, 'html.parser')
-    tashkent_time_str = soup.find("span", {"class": "date-time"}).text.strip()
 
-    # Vaqtni formatlash
-    tashkent_time = datetime.strptime(tashkent_time_str, "%d.%m.%Y %H:%M:%S")
-    tashkent_time = tashkent_time.replace(tzinfo=uz_tz)
-
-    # Vaqtni foydalanuvchiga yuborish
-    bot.send_message(message.chat.id, f"Joriy Toshkent vaqti: {tashkent_time.strftime('%Y-%m-%d %H:%M:%S')}")
+    # Elementni qidirish
+    date_time_element = soup.find("span", {"class": "date-time"})
+    
+    if date_time_element:
+        tashkent_time_str = date_time_element.text.strip()
+        tashkent_time = datetime.strptime(tashkent_time_str, "%d.%m.%Y %H:%M:%S")
+        tashkent_time = tashkent_time.replace(tzinfo=uz_tz)
+        bot.send_message(message.chat.id, f"Joriy Toshkent vaqti: {tashkent_time.strftime('%Y-%m-%d %H:%M:%S')}")
+    else:
+        bot.send_message(message.chat.id, "Uzr, Toshkent vaqti olinmadi.")
 
 if __name__ == "__main__":
     bot.polling(none_stop=True)

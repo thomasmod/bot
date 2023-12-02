@@ -30,7 +30,8 @@ async def save_file(message: types.Message):
             os.makedirs(os.path.join(SAVE_DIRECTORY, filename), exist_ok=True)
             
             # Сохраняем файл
-            with open(os.path.join(SAVE_DIRECTORY, filename, message.document.file_name), 'wb') as new_file:
+            file_full_path = os.path.join(SAVE_DIRECTORY, filename, message.document.file_name)
+            with open(file_full_path, 'wb') as new_file:
                 new_file.write(downloaded_file.read())
                 
             await message.reply(f"Файл '{message.document.file_name}' сохранен в каталоге '{filename}'.")

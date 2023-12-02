@@ -1,10 +1,9 @@
 import os
 from aiogram import Bot, Dispatcher, types
-from aiogram.types import InputFile
 from aiogram import executor
 
 API_TOKEN = "6567194474:AAGKjA_a9clchbPjs1TrfuCSN57HBmGcg5I"
-SAVE_DIRECTORY = "saved_files"
+SAVE_DIRECTORY = "resources/saved_files"
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)

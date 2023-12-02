@@ -1,5 +1,7 @@
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler, MessageHandler, CallbackContext
+from telegram.ext.filters import Filters  # Изменено здесь
+
 import os
 
 TOKEN = '6567194474:AAGKjA_a9clchbPjs1TrfuCSN57HBmGcg5I'
